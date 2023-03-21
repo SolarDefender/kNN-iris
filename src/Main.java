@@ -18,7 +18,7 @@ public class Main {
             }
             else
             {
-                it.testVector(input.split(","));
+                it.testVector(input.split(","),false);
             }
         }
 

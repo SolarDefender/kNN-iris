@@ -12,17 +12,20 @@ public class IrisTester {
     {
         try {
             BufferedReader irisTest = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            for (String strT; (strT = irisTest.readLine()) != null; ) {
+            int counter=0;
+            int correctCounter=0;
+            for (String strT; (strT = irisTest.readLine()) != null;counter++) {
                 String[] splitedT = strT.split(",");
-                String result= testVector(splitedT);
-                System.out.println((result.equals(splitedT[4])?" true":" false"));
+                String result= testVector(splitedT,true);
+                correctCounter+=result.equals(splitedT[4])?1:0;
             }
+            System.out.println("\nTOTAL TEST RESULT: "+correctCounter*100/counter+"%");
         }
         catch(Exception e)
         {e.printStackTrace();}
     }
 
-    public String testVector(String[] strTest){
+    public String testVector(String[] strTest,boolean auto){
 
         try {
             BufferedReader iris=new BufferedReader(new InputStreamReader(new FileInputStream("iris.test.data")));
@@ -65,11 +68,13 @@ public class IrisTester {
             }
 
             int sum= Arrays.stream(counters).sum();
-            for (int i = 0; i < nameList.size(); i++) {
-                System.out.println(nameList.get(i)+" = "+counters[i]*100/sum+"%");
-            }
             result=nameList.get(nMax);
-            System.out.println("\nResult: "+result+" "+counters[nMax]*100/sum+"%");
+            if(!auto) {
+                for (int i = 0; i < nameList.size(); i++) {
+                    System.out.println(nameList.get(i) + " = " + counters[i] * 100 / sum + "%");
+                }
+                System.out.println("\nResult: " + result + " " + counters[nMax] * 100 / sum + "%");
+            }
             return result;
         }
         catch(Exception e)
