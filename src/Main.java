@@ -1,9 +1,9 @@
 import java.io.*;
 import java.util.Scanner;
 
-public class Main {
+public class  Main {
     public static void main(String[] args){
-        System.out.print("Enter classifier: ");
+        System.out.print("Enter K: ");
         Scanner sc=new Scanner(System.in);
         int q=sc.nextInt();
         IrisTester it=new IrisTester(q);

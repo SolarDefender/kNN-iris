@@ -12,8 +12,8 @@ public class IrisTester {
     {
         try {
             BufferedReader irisTest = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            int counter=0;
-            int correctCounter=0;
+            double counter=0;
+            double correctCounter=0;
             for (String strT; (strT = irisTest.readLine()) != null;counter++) {
                 String[] splitedT = strT.split(",");
                 String result= testVector(splitedT,true);
