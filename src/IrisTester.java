@@ -17,7 +17,7 @@ public class IrisTester {
             for (String strT; (strT = irisTest.readLine()) != null;counter++) {
                 String[] splitedT = strT.split(",");
                 String result= testVector(splitedT,true);
-                correctCounter+=result.equals(splitedT[4])?1:0;
+                correctCounter+=result.equals(splitedT[splitedT.length-1])?1:0;
             }
             System.out.println("\nTOTAL TEST RESULT: "+correctCounter*100/counter+"%");
         }
@@ -30,22 +30,30 @@ public class IrisTester {
         try {
             BufferedReader iris=new BufferedReader(new InputStreamReader(new FileInputStream("iris.test.data")));
 
-            double xT = Double.parseDouble(strTest[0]);
-            double yT = Double.parseDouble(strTest[1]);
-            double zT = Double.parseDouble(strTest[2]);
-            double tT = Double.parseDouble(strTest[3]);
+            List<Double> testVector=new ArrayList<>();
+            for (int i = 0; i < strTest.length-1; i++)
+                testVector.add(Double.parseDouble(strTest[i]));
+
 
             List<IrisNode> nodeList =new ArrayList<>();
             List<String> nameList =new ArrayList<>();
             String result;
             for (String str; (str = iris.readLine()) != null; ) {
                 String[] splited = str.split(",");
-                double x = Double.parseDouble(splited[0]);
-                double y = Double.parseDouble(splited[1]);
-                double z = Double.parseDouble(splited[2]);
-                double t = Double.parseDouble(splited[3]);
-                String name = splited[4];
-                double calculation=Math.sqrt(Math.pow(x-xT,2)+Math.pow(y-yT,2)+Math.pow(z-zT,2)+Math.pow(t-tT,2));
+
+                List<Double> vector=new ArrayList<>();
+
+                for (int i = 0; i < splited.length-1; i++)
+                    vector.add(Double.parseDouble(splited[i]));
+
+                String name = splited[splited.length-1];
+                checkSize(vector,testVector);
+                double calculation=0;
+                for (int i = 0; i < vector.size(); i++) {
+                    calculation+=Math.pow(vector.get(i)- testVector.get(i), 2);
+                }
+                calculation=Math.sqrt(calculation);
+
                 nodeList.add(new IrisNode(name,calculation));
                 if(!nameList.contains(name)){
                    // System.out.println(name);
@@ -82,4 +90,17 @@ public class IrisTester {
         return null;
     }
 
+    private void checkSize(List<Double> vector,List<Double> testVector)
+    {
+        int tvs=testVector.size();
+        int vs=vector.size();
+
+        if (vs>tvs)
+            for (int i = 0; i < vs - tvs; i++)
+                testVector.add(0.0);
+        else if (vs<tvs)
+            for (int i = 0; i < tvs - vs; i++)
+                vector.add(0.0);
+
+    }
 }

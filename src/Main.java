@@ -10,16 +10,13 @@ public class  Main {
         for (int i = 0; i < 3; i++) {
 
             Scanner sc1=new Scanner(System.in);
-            System.out.println("Enter vector by your self format: [ float,float,float,float ]  or enter [auto]: ");
+            System.out.println("Enter vector by your self or enter [auto]: ");
             String input=sc1.nextLine();
             if (input.equals("auto"))
-            {
                 it.testFile(new File("iris.data"));
-            }
             else
-            {
                 it.testVector(input.split(","),false);
-            }
+
         }
 
 
